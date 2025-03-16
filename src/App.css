@@ -1,0 +1,37 @@
+.sidebar {
+  background: #2c3e50;
+}
+.navbar .navbar-brand-wrapper {
+  background: #2c3e50;
+}
+.sidebar {
+  width: 300px;
+}
+.navbar .navbar-brand-wrapper {
+  width: 300px;
+}
+.navbar .navbar-menu-wrapper {
+  width: calc(100% - 300px);
+}
+
+.sidebar .nav.sub-menu .nav-item .nav-link:hover {
+  color: #df862b;
+}
+
+.sidebar .nav .nav-item .nav-link li {
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+}
+.sidebar .nav .nav-item:first-child .nav-link {
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+}
+.sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link {
+  background: rgb(23, 162, 184);
+  border-top: 1px solid #000000;
+  border-bottom: 0px solid #000000;
+}
+.sidebar ul li,
+.sidebar ul li a {
+  border: 0 !important;
+}
