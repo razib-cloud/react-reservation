@@ -7,8 +7,8 @@ const SideBar = () => {
         <div className="user-image">
           <img src="images/faces/face28.png" alt="User" />
         </div>
-        <div className="user-name">Foodzy Restaurant</div>
-        <div className="user-designation">Love To Make Eat</div>
+        <div className="user-name">Razib Farhan</div>
+        <div className="user-designation">Developer</div>
       </div>
 
       <ul className="nav">
@@ -29,13 +29,13 @@ const SideBar = () => {
             aria-controls="student-management"
           >
             <i className="icon-disc menu-icon" />
-            <span className="menu-title">Kitchen MANAGEMENT</span>
+            <span className="menu-title">STUDENT MANAGEMENT</span>
             <i className="menu-arrow" />
           </a>
           <div className="collapse" id="student-management">
             <ul className="nav flex-column sub-menu">
               <li className="nav-item">
-                <a className="nav-link" href="#">Add New Product</a>
+                <a className="nav-link" href="#">Add New Students</a>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/createpayment">
@@ -62,17 +62,17 @@ const SideBar = () => {
             aria-controls="admission-management"
           >
             <i className="icon-disc menu-icon" />
-            <span className="menu-title">TABLE RESERVATION</span>
+            <span className="menu-title">ADMISSION MANAGEMENT</span>
             <i className="menu-arrow" />
           </a>
           <div className="collapse" id="admission-management">
             <ul className="nav flex-column sub-menu">
               <li className="nav-item">
-                <NavLink className="nav-link" to="/createpayment" >Create Reservaiton</NavLink>
+                <a className="nav-link" href="#">View Admission</a>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/managefee">
-                  View Reservation Fees
+                  View Admission Fees
                 </NavLink>
               </li>
             </ul>
@@ -80,7 +80,7 @@ const SideBar = () => {
         </li>
 
         {/* Class Management */}
-        {/* <li className="nav-item">
+        <li className="nav-item">
           <a
             className="nav-link"
             data-toggle="collapse"
@@ -110,7 +110,7 @@ const SideBar = () => {
               </li>
             </ul>
           </div>
-        </li> */}
+        </li>
 
         {/* Static Menu Items */}
         <li className="nav-item">
