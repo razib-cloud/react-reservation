@@ -43,10 +43,10 @@ const SideBar = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">View Payment Details</a>
+                <a className="nav-link" href="#">View Product Details</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">View Payment Status</a>
+                <a className="nav-link" href="#">View Product Status</a>
               </li>
             </ul>
           </div>
@@ -72,7 +72,7 @@ const SideBar = () => {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/managefee">
-                  View Reservation Fees
+                  View Reservations
                 </NavLink>
               </li>
             </ul>

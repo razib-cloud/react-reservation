@@ -11,50 +11,48 @@ const CreatePayment = () => {
 
   const [Table, setTable] = useState([]);
   const [selectedTable, setselectedTable] = useState({
-    capacity:0,
+    capacity: 0,
   });
 
-  const [Customers, setcustomers] = useState([])
+  const [Customers, setcustomers] = useState([]);
   const [selectedCustomer, setselectedCustomer] = useState({
-    name:"",
-    phone:"",
-    email:"",
-    address:""
-  })
-
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
 
   const handleChangeCustomer = (e) => {
     let item = JSON.parse(e.target.value);
     console.log(item);
-     setselectedCustomer(item);
+    setselectedCustomer(item);
   };
+
   const handleChangeTable = (e) => {
     let item = JSON.parse(e.target.value);
     console.log(item);
-     setselectedTable(item);
+    setselectedTable(item);
   };
-
-
-  
-
-
-
 
   const fetchCustomers = () => {
-    axios.get("http://localhost/Laravel/Restaurant/public/api/customers").then((res) => {
-      console.log(res);
-       setcustomers(res.data.customers);
-    });
+    axios
+      .get("http://localhost/Laravel/Restaurant-main/public/api/customers")
+      .then((res) => {
+        console.log(res);
+        setcustomers(res.data.customers);
+      });
   };
+
   const fetchTables = () => {
-    axios.get("http://localhost/Laravel/Restaurant/public/api/tables").then((res) => {
-      console.log(res);
-       setTable(res.data.tables);
-    });
+    axios
+      .get("http://localhost/Laravel/Restaurant-main/public/api/tables")
+      .then((res) => {
+        console.log(res);
+        setTable(res.data.tables);
+      });
   };
 
   useEffect(() => {
-   
     fetchCustomers();
     fetchTables();
   }, []);
@@ -66,27 +64,26 @@ const CreatePayment = () => {
     };
 
     axios
-      .post("http://localhost/Laravel/Restaurant/public/api/resarvation", ReservationData)
+      .post("http://localhost/Laravel/Restaurant-main/public/api/resarvation", ReservationData)
       .then((res) => {
-        console.log("resarvation processed successfully:", res.data);
-
+        console.log("reservation processed successfully:", res.data);
         
-        // alert("Payment processed successfully!");
-        // setselectedTable({ capacity:0,}); 
-        // setselectedCustomer({
-        //   name:"",
-        //   phone:"",
-        //   email:"",
-        //   address:""
-        // }); 
+        // Show success message and clear data
+        alert("Reservation processed successfully!");
+        setselectedTable({ capacity: 0 });
+        setselectedCustomer({
+          name: "",
+          phone: "",
+          email: "",
+          address: "",
+        });
       })
       .catch((err) => {
         console.error("Error processing payment:", err);
-        alert("Failed to process payment. Please try again.");
+        alert("Failed to process reservation. Please try again.");
       });
   };
 
-  // Print Function
   const handlePrint = () => {
     window.print();
   };
@@ -97,8 +94,7 @@ const CreatePayment = () => {
         {/* Header */}
         <div className="card-header bg-info text-white text-center">
           <h2 className="mb-1">Table Reservation</h2>
-          <p className="mb-0">
-          </p>
+          <p className="mb-0"></p>
         </div>
 
         {/* Card Body */}
@@ -106,60 +102,68 @@ const CreatePayment = () => {
           {/* Student Details */}
           <div className="mb-4">
             <h5 className="text-dark border-bottom border-secondary pb-2">
-             Select Customer    
-            </h5> 
-           
+              Select Customer
+            </h5>
+
             <div className="row">
               <div className="col-md-6 ms-4 mb-3">
-                 <select  name="customer" id=""  onChange={handleChangeCustomer}
-                      className="form-control">
-                     
-                     <option>Select Customer</option>
-                      {Customers?.map((item, i) => (
-                        <option key={item.id} value={JSON.stringify(item)}>
-                          {item.name}
-                        </option>
-                      ))}
-
-                 </select>
-               
+                <select
+                  name="customer"
+                  onChange={handleChangeCustomer}
+                  className="form-control"
+                >
+                  <option>Select Customer</option>
+                  {Customers?.map((item) => (
+                    <option key={item.id} value={JSON.stringify(item)}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
               </div>
+
               <div className="col-md-6">
-              <button className="btn btn-secondary">New cusotmer</button>
-                    <p>
-                      <strong>Name:</strong>{" "}
-                      <span id="name">
-                        {selectedCustomer.name || "N/A"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Mobile:</strong>{" "}
-                      <span id="phone">
-                        {selectedCustomer.phone || "N/A"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Address:</strong>{" "}
-                      <span id="address">
-                        {selectedCustomer.address || "N/A"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Email:</strong>{" "}
-                      <span id="address">
-                        {selectedCustomer.email || "N/A"}
-                      </span>
-                    </p>
-                 
+                <button className="btn btn-secondary">New customer</button>
+                <p>
+                  <strong>Name:</strong>{" "}
+                  <span id="name">{selectedCustomer.name || "N/A"}</span>
+                </p>
+                <p>
+                  <strong>Mobile:</strong>{" "}
+                  <span id="phone">{selectedCustomer.phone || "N/A"}</span>
+                </p>
+                <p>
+                  <strong>Address:</strong>{" "}
+                  <span id="address">{selectedCustomer.address || "N/A"}</span>
+                </p>
+                <p>
+                  <strong>Email:</strong>{" "}
+                  <span id="email">{selectedCustomer.email || "N/A"}</span>
+                </p>
               </div>
             </div>
           </div>
 
+          {/* Reservation Details */}
+          <div>
+            <div className="mb-4">
+              <input type="time" className="form-control mb-2" />
+            </div>
+            <div className="mb-4">
+              <input type="date" className="form-control mb-2" />
+            </div>
+            <div>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Number of Members"
+              />
+            </div>
+          </div>
+
           {/* Fee Breakdown */}
-          
           <div className="mb-4">
             <h5 className="text-dark border-bottom border-secondary pb-2">
-             Table List
+              Table List
             </h5>
             <table className="table table-bordered">
               <tbody>
@@ -174,31 +178,24 @@ const CreatePayment = () => {
                     <select
                       onChange={handleChangeTable}
                       className="form-control"
-                      name=""
-                      id=""
                     >
                       <option>Select Table</option>
-                      {Table?.map((item, i) => 
-                      {
+                      {Table?.map((item, i) => {
                         if (item.status === 0) {
-                          return <option key={item.id} value={JSON.stringify(item)}>
-                         {item.table_number}
-                       </option>
+                          return (
+                            <option key={item.id} value={JSON.stringify(item)}>
+                              {item.table_number}
+                            </option>
+                          );
                         }
-                         
-
-                      }
-                        
-                      )}
+                      })}
                     </select>
                   </td>
                   <td id="admission_fee">
-                    <div className=" w-100">
-                      <span className="m-3">Capacity : {selectedTable.capacity}</span>
-{/*                     
-                       <button onClick={addFeeList} className="btn btn-primary">
-                      Add
-                    </button> */}
+                    <div className="w-100">
+                      <span className="m-3">
+                        Capacity : {selectedTable.capacity}
+                      </span>
                     </div>
                   </td>
                 </tr>
@@ -206,16 +203,14 @@ const CreatePayment = () => {
             </table>
           </div>
 
-
-          
           {/* Footer */}
           <div className="text-center mt-4">
             <p className="text-muted">
-              Thank you for your Resarvation!
+              Thank you for your Reservation!
               <br />
               <em>
-                This is a computer-generated reservation slip and does not require a
-                signature.
+                This is a computer-generated reservation slip and does not
+                require a signature.
               </em>
             </p>
           </div>
