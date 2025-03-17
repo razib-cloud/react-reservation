@@ -9,85 +9,76 @@ const CreatePayment = () => {
   const [feeitem, setFeeItem] = useState([]);
   const [totalFeesamount, settotalFeesamount] = useState(0);
 
-  const handleChange = (e) => {
-    let item = JSON.parse(e.target.value);
-    setFeeItem(item);
-  };
-
-  const addFeeList = () => {
-    let list = [...feeList, feeitem];
-    setFeeList(list);
-    console.log(feeList);
-  };
-
-  const feelistSumery = () => {
-    let totalFeesAmount =
-      feeList.length !== 0 &&
-      feeList.reduce((sum, item) => parseFloat(item.amount) + sum, 0);
-    settotalFeesamount(totalFeesAmount);
-  };
-
-  useEffect(() => {
-    feelistSumery();
-  }, [feeList]);
-
-  // States
-  const [studentDetails, setStudentDetails] = useState({
-    id: "",
-    name: "",
-    class_name: "",
-    section_name: "",
+  const [Table, setTable] = useState([]);
+  const [selectedTable, setselectedTable] = useState({
+    capacity:0,
   });
 
-  const [error, setError] = useState(null); // To display error messages
-  const [loading, setLoading] = useState(false); // To indicate loading state
+  const [Customers, setcustomers] = useState([])
+  const [selectedCustomer, setselectedCustomer] = useState({
+    name:"",
+    phone:"",
+    email:"",
+    address:""
+  })
 
-  // Handle Student Change
-  const handleStudentChange = (e) => {
-    const studentID = e.target.value.trim();
 
-    setLoading(true);
-    axios
-      .get(`${baseUrl}api/student/find/${studentID}`)
-      .then((res) => {
-        const student = res.data.student || {
-          id: "",
-          name: "",
-          class_name: "",
-          section_name: "",
-        };
-        setStudentDetails(student);
-        setError(null);
-      })
-      .catch(() => setError("Unable to fetch student details. Please try again."))
-      .finally(() => setLoading(false));
+  const handleChangeCustomer = (e) => {
+    let item = JSON.parse(e.target.value);
+    console.log(item);
+     setselectedCustomer(item);
+  };
+  const handleChangeTable = (e) => {
+    let item = JSON.parse(e.target.value);
+    console.log(item);
+     setselectedTable(item);
   };
 
-  const fetchFees = () => {
-    axios.get(baseUrl + "api/Fee").then((res) => {
+
+  
+
+
+
+
+  const fetchCustomers = () => {
+    axios.get("http://localhost/Laravel/Restaurant/public/api/customers").then((res) => {
       console.log(res);
-      setFees(res.data.fees);
+       setcustomers(res.data.customers);
+    });
+  };
+  const fetchTables = () => {
+    axios.get("http://localhost/Laravel/Restaurant/public/api/tables").then((res) => {
+      console.log(res);
+       setTable(res.data.tables);
     });
   };
 
   useEffect(() => {
-    fetchFees();
+   
+    fetchCustomers();
+    fetchTables();
   }, []);
 
   const handleProcess = () => {
-    const paymentData = {
-      student_id: studentDetails.id,
-      total_amount: totalFeesamount,
-      fees: feeList,
+    const ReservationData = {
+      table_id: selectedTable.id,
+      customer_id: selectedCustomer,
     };
 
     axios
-      .post(baseUrl + "api/payment/process", paymentData)
+      .post("http://localhost/Laravel/Restaurant/public/api/resarvation", ReservationData)
       .then((res) => {
-        console.log("Payment processed successfully:", res.data);
-        alert("Payment processed successfully!");
-        setFeeList([]); // Clear fee list after processing
-        settotalFeesamount(0); // Reset total amount
+        console.log("resarvation processed successfully:", res.data);
+
+        
+        // alert("Payment processed successfully!");
+        // setselectedTable({ capacity:0,}); 
+        // setselectedCustomer({
+        //   name:"",
+        //   phone:"",
+        //   email:"",
+        //   address:""
+        // }); 
       })
       .catch((err) => {
         console.error("Error processing payment:", err);
@@ -105,9 +96,8 @@ const CreatePayment = () => {
       <div className="card shadow">
         {/* Header */}
         <div className="card-header bg-info text-white text-center">
-          <h2 className="mb-1">Payment Slip</h2>
+          <h2 className="mb-1">Table Reservation</h2>
           <p className="mb-0">
-            <h5>Academi</h5>
           </p>
         </div>
 
@@ -116,51 +106,51 @@ const CreatePayment = () => {
           {/* Student Details */}
           <div className="mb-4">
             <h5 className="text-dark border-bottom border-secondary pb-2">
-              Student Details
-            </h5>
+             Select Customer    
+            </h5> 
+           
             <div className="row">
-              <div className="col-md-6 mb-3">
-                <label htmlFor="studentID" className="form-label">
-                  Enter Student ID
-                </label>
-                <input
-                  name="studentID"
-                  type="text"
-                  className="form-control"
-                  onChange={handleStudentChange}
-                  placeholder="Insert Student ID"
-                />
-                {error && <small className="text-danger">{error}</small>}
+              <div className="col-md-6 ms-4 mb-3">
+                 <select  name="customer" id=""  onChange={handleChangeCustomer}
+                      className="form-control">
+                     
+                     <option>Select Customer</option>
+                      {Customers?.map((item, i) => (
+                        <option key={item.id} value={JSON.stringify(item)}>
+                          {item.name}
+                        </option>
+                      ))}
+
+                 </select>
+               
               </div>
               <div className="col-md-6">
-                {loading ? (
-                  <p>Loading student details...</p>
-                ) : (
-                  <>
-                    <p>
-                      <strong>Student ID:</strong>{" "}
-                      <span id="student_id">{studentDetails.id || "N/A"}</span>
-                    </p>
+              <button className="btn btn-secondary">New cusotmer</button>
                     <p>
                       <strong>Name:</strong>{" "}
-                      <span id="student_name">
-                        {studentDetails.name || "N/A"}
+                      <span id="name">
+                        {selectedCustomer.name || "N/A"}
                       </span>
                     </p>
                     <p>
-                      <strong>Class:</strong>{" "}
-                      <span id="student_class">
-                        {studentDetails.class_name || "N/A"}
+                      <strong>Mobile:</strong>{" "}
+                      <span id="phone">
+                        {selectedCustomer.phone || "N/A"}
                       </span>
                     </p>
                     <p>
-                      <strong>Section:</strong>{" "}
-                      <span id="student_section">
-                        {studentDetails.section_name || "N/A"}
+                      <strong>Address:</strong>{" "}
+                      <span id="address">
+                        {selectedCustomer.address || "N/A"}
                       </span>
                     </p>
-                  </>
-                )}
+                    <p>
+                      <strong>Email:</strong>{" "}
+                      <span id="address">
+                        {selectedCustomer.email || "N/A"}
+                      </span>
+                    </p>
+                 
               </div>
             </div>
           </div>
@@ -169,74 +159,62 @@ const CreatePayment = () => {
           
           <div className="mb-4">
             <h5 className="text-dark border-bottom border-secondary pb-2">
-              Fee Breakdown
+             Table List
             </h5>
             <table className="table table-bordered">
               <tbody>
                 <tr>
                   <td>
-                    <strong>Fee</strong>
+                    <strong>Table</strong>
                   </td>
-                  <td id="tuition_fee">BDT</td>
+                  <td id="tuition_fee">Table Capacity</td>
                 </tr>
                 <tr>
                   <td>
                     <select
-                      onChange={handleChange}
+                      onChange={handleChangeTable}
                       className="form-control"
                       name=""
                       id=""
                     >
-                      <option>Select Fees</option>
-                      {fees?.map((item, i) => (
-                        <option key={item.id} value={JSON.stringify(item)}>
-                          {item.name}
-                        </option>
-                      ))}
+                      <option>Select Table</option>
+                      {Table?.map((item, i) => 
+                      {
+                        if (item.status === 0) {
+                          return <option key={item.id} value={JSON.stringify(item)}>
+                         {item.table_number}
+                       </option>
+                        }
+                         
+
+                      }
+                        
+                      )}
                     </select>
                   </td>
                   <td id="admission_fee">
-                    <button onClick={addFeeList} className="btn btn-primary">
+                    <div className=" w-100">
+                      <span className="m-3">Capacity : {selectedTable.capacity}</span>
+{/*                     
+                       <button onClick={addFeeList} className="btn btn-primary">
                       Add
-                    </button>
+                    </button> */}
+                    </div>
                   </td>
                 </tr>
-                {feeList?.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <strong>{item.name}</strong>
-                    </td>
-                    <td id="misc_fee">{item.amount} BDT</td>
-                  </tr>
-                ))}
               </tbody>
             </table>
           </div>
 
-          {/* Total Summary */}
-          <div className="mb-4">
-            <div className="row">
-              <div className="col-md-6">
-                <h5 className="text-dark border-bottom border-secondary pb-2">
-                  Total Summary
-                </h5>
-              </div>
-              <div className="col-md-6">
-                <p className="text-dark border-bottom border-secondary pb-2">
-                  <strong>Total Amount:</strong>{" "}
-                  <span id="total_due">{totalFeesamount} BDT</span>
-                </p>
-              </div>
-            </div>
-          </div>
 
+          
           {/* Footer */}
           <div className="text-center mt-4">
             <p className="text-muted">
-              Thank you for your payment!
+              Thank you for your Resarvation!
               <br />
               <em>
-                This is a computer-generated slip and does not require a
+                This is a computer-generated reservation slip and does not require a
                 signature.
               </em>
             </p>
