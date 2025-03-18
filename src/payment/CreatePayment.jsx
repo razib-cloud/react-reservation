@@ -1,224 +1,166 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const CreatePayment = () => {
-  const baseUrl = "http://localhost/School/admin/";
-
-  const [fees, setFees] = useState([]);
-  const [feeList, setFeeList] = useState([]);
-  const [feeitem, setFeeItem] = useState([]);
-  const [totalFeesamount, settotalFeesamount] = useState(0);
-
-  const [Table, setTable] = useState([]);
-  const [selectedTable, setselectedTable] = useState({
-    capacity: 0,
-  });
-
-  const [Customers, setcustomers] = useState([]);
-  const [selectedCustomer, setselectedCustomer] = useState({
+const CreateReservation = () => {
+  const [Tables, setTables] = useState([]);
+  const [Customers, setCustomers] = useState([]);
+  const [selectedTable, setSelectedTable] = useState(null);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [newCustomer, setNewCustomer] = useState({
     name: "",
     phone: "",
     email: "",
-    address: "",
+    address: ""
   });
 
-  const handleChangeCustomer = (e) => {
-    let item = JSON.parse(e.target.value);
-    console.log(item);
-    setselectedCustomer(item);
-  };
-
-  const handleChangeTable = (e) => {
-    let item = JSON.parse(e.target.value);
-    console.log(item);
-    setselectedTable(item);
-  };
-
-  const fetchCustomers = () => {
-    axios
-      .get("http://localhost/Laravel/Restaurant/public/api/customers")
-      .then((res) => {
-        console.log(res);
-        setcustomers(res.data.customers);
-      });
-  };
-
-  const fetchTables = () => {
-    axios
-      .get("http://localhost/Laravel/Restaurant/public/api/tables")
-      .then((res) => {
-        console.log(res);
-        setTable(res.data.tables);
-      });
-  };
+  const [reservationDate, setReservationDate] = useState("");
+  const [reservationTime, setReservationTime] = useState("");
+  const [numberOfMembers, setNumberOfMembers] = useState(0);
 
   useEffect(() => {
     fetchCustomers();
     fetchTables();
   }, []);
 
+  const fetchCustomers = () => {
+    axios
+      .get("http://localhost/Laravel/Restaurant-main/public/api/customers")
+      .then((res) => setCustomers(res.data.customers));
+  };
+
+  const fetchTables = () => {
+    axios
+      .get("http://localhost/Laravel/Restaurant-main/public/api/tables")
+      .then((res) => setTables(res.data.tables));
+  };
+
   const handleProcess = () => {
     const ReservationData = {
       table_id: selectedTable.id,
-      customer_id: selectedCustomer,
+      customer_id: selectedCustomer?.id || null,
+      customer: selectedCustomer?.id ? null : newCustomer,
+      date: reservationDate,
+      time: reservationTime,
+      members: numberOfMembers,
     };
 
     axios
-      .post("http://localhost/Laravel/Restaurant/public/api/resarvations", ReservationData)
+      .post("http://localhost/Laravel/Restaurant-main/public/api/resarvations", ReservationData)
       .then((res) => {
-        console.log("reservation processed successfully:", res.data);
-        
-        // Show success message and clear data
         alert("Reservation processed successfully!");
-        setselectedTable({ capacity: 0 });
-        setselectedCustomer({
-          name: "",
-          phone: "",
-          email: "",
-          address: "",
-        });
+        resetForm();
       })
-      .catch((err) => {
-        console.error("Error processing payment:", err);
-        alert("Failed to process reservation. Please try again.");
-      });
+      .catch((err) => alert("Failed to process reservation. Please try again."));
   };
 
-  const handlePrint = () => {
-    window.print();
+  const resetForm = () => {
+    setSelectedTable(null);
+    setSelectedCustomer(null);
+    setNewCustomer({ name: "", phone: "", email: "", address: "" });
+    setReservationDate("");
+    setReservationTime("");
+    setNumberOfMembers(0);
   };
 
   return (
     <div className="container my-5">
       <div className="card shadow">
-        {/* Header */}
         <div className="card-header bg-info text-white text-center">
-          <h2 className="mb-1">Table Reservation</h2>
-          <p className="mb-0"></p>
+          <h2>Table Reservation</h2>
         </div>
 
-        {/* Card Body */}
-        <div className="card-body rounded">
-          {/* Student Details */}
+        <div className="card-body">
+
+          {/* Customer Selection */}
           <div className="mb-4">
-            <h5 className="text-dark border-bottom border-secondary pb-2">
-              Select Customer
-            </h5>
+            <h5>Select Existing Customer</h5>
+            <select
+              className="form-control mb-3"
+              onChange={(e) => setSelectedCustomer(JSON.parse(e.target.value))}
+            >
+              <option value="">Select Customer</option>
+              {Customers.map((item) => (
+                <option key={item.id} value={JSON.stringify(item)}>
+                  {item.name} ({item.phone})
+                </option>
+              ))}
+            </select>
 
-            <div className="row">
-              <div className="col-md-6 ms-4 mb-3">
-                <select
-                  name="customer"
-                  onChange={handleChangeCustomer}
-                  className="form-control"
-                >
-                  <option>Select Customer</option>
-                  {Customers?.map((item) => (
-                    <option key={item.id} value={JSON.stringify(item)}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="col-md-6">
-                <button className="btn btn-secondary">New customer</button>
-                <p>
-                  <strong>Name:</strong>{" "}
-                  <span id="name">{selectedCustomer.name || "N/A"}</span>
-                </p>
-                <p>
-                  <strong>Mobile:</strong>{" "}
-                  <span id="phone">{selectedCustomer.phone || "N/A"}</span>
-                </p>
-                <p>
-                  <strong>Address:</strong>{" "}
-                  <span id="address">{selectedCustomer.address || "N/A"}</span>
-                </p>
-                <p>
-                  <strong>Email:</strong>{" "}
-                  <span id="email">{selectedCustomer.email || "N/A"}</span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Reservation Details */}
-          <div>
-            <div className="mb-4">
-              <input type="time" className="form-control mb-2" />
-            </div>
-            <div className="mb-4">
-              <input type="date" className="form-control mb-2" />
-            </div>
             <div>
+              <h5>Or, Add New Customer</h5>
               <input
-                type="number"
-                className="form-control"
-                placeholder="Number of Members"
+                type="text"
+                className="form-control mb-2"
+                placeholder="Name"
+                value={newCustomer.name}
+                onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
+              />
+              <input
+                type="text"
+                className="form-control mb-2"
+                placeholder="Phone"
+                value={newCustomer.phone}
+                onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })}
+              />
+              <input
+                type="email"
+                className="form-control mb-2"
+                placeholder="Email"
+                value={newCustomer.email}
+                onChange={(e) => setNewCustomer({ ...newCustomer, email: e.target.value })}
+              />
+              <input
+                type="text"
+                className="form-control mb-2"
+                placeholder="Address"
+                value={newCustomer.address}
+                onChange={(e) => setNewCustomer({ ...newCustomer, address: e.target.value })}
               />
             </div>
           </div>
 
-          {/* Fee Breakdown */}
+          {/* Reservation Details */}
           <div className="mb-4">
-            <h5 className="text-dark border-bottom border-secondary pb-2">
-              Table List
-            </h5>
-            <table className="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <strong>Table</strong>
-                  </td>
-                  <td id="tuition_fee">Table Capacity</td>
-                </tr>
-                <tr>
-                  <td>
-                    <select
-                      onChange={handleChangeTable}
-                      className="form-control"
-                    >
-                      <option>Select Table</option>
-                      {Table?.map((item, i) => {
-                        if (item.status === 0) {
-                          return (
-                            <option key={item.id} value={JSON.stringify(item)}>
-                              {item.table_number}
-                            </option>
-                          );
-                        }
-                      })}
-                    </select>
-                  </td>
-                  <td id="admission_fee">
-                    <div className="w-100">
-                      <span className="m-3">
-                        Capacity : {selectedTable.capacity}
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <h5>Select Table</h5>
+            <select
+              className="form-control mb-3"
+              onChange={(e) => setSelectedTable(JSON.parse(e.target.value))}
+            >
+              <option value="">Select Table</option>
+              {Tables.filter(table => table.status === 0).map((table) => (
+                <option key={table.id} value={JSON.stringify(table)}>
+                  Table {table.table_number} (Capacity: {table.capacity})
+                </option>
+              ))}
+            </select>
+
+            <div className="mb-2">
+              <input
+                type="date"
+                className="form-control mb-2"
+                value={reservationDate}
+                onChange={(e) => setReservationDate(e.target.value)}
+              />
+              <input
+                type="time"
+                className="form-control mb-2"
+                value={reservationTime}
+                onChange={(e) => setReservationTime(e.target.value)}
+              />
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Number of Members"
+                value={numberOfMembers}
+                onChange={(e) => setNumberOfMembers(parseInt(e.target.value))}
+              />
+            </div>
           </div>
 
-          {/* Footer */}
+          {/* Process Button */}
           <div className="text-center mt-4">
-            <p className="text-muted">
-              Thank you for your Reservation!
-              <br />
-              <em>
-                This is a computer-generated reservation slip and does not
-                require a signature.
-              </em>
-            </p>
-          </div>
-
-          {/* Download Button */}
-          <div className="text-center mt-4">
-            <button onClick={handleProcess} className="btn btn-info">
-              Process
+            <button className="btn btn-info" onClick={handleProcess}>
+              Process Reservation
             </button>
           </div>
         </div>
@@ -227,4 +169,4 @@ const CreatePayment = () => {
   );
 };
 
-export default CreatePayment;
+export default CreateReservation;
