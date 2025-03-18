@@ -36,7 +36,7 @@ const CreatePayment = () => {
 
   const fetchCustomers = () => {
     axios
-      .get("http://localhost/Laravel/Restaurant-main/public/api/customers")
+      .get("http://localhost/Laravel/Restaurant/public/api/customers")
       .then((res) => {
         console.log(res);
         setcustomers(res.data.customers);
@@ -45,7 +45,7 @@ const CreatePayment = () => {
 
   const fetchTables = () => {
     axios
-      .get("http://localhost/Laravel/Restaurant-main/public/api/tables")
+      .get("http://localhost/Laravel/Restaurant/public/api/tables")
       .then((res) => {
         console.log(res);
         setTable(res.data.tables);
@@ -64,7 +64,7 @@ const CreatePayment = () => {
     };
 
     axios
-      .post("http://localhost/Laravel/Restaurant-main/public/api/resarvation", ReservationData)
+      .post("http://localhost/Laravel/Restaurant/public/api/resarvations", ReservationData)
       .then((res) => {
         console.log("reservation processed successfully:", res.data);
         

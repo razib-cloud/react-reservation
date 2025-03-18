@@ -106,4 +106,5 @@ const CreateFee = () => {
     );
 };
 
+
 export default CreateFee;

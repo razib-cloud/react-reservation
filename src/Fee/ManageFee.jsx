@@ -1,118 +1,18 @@
-// import axios from 'axios';
-// import { useEffect, useState } from 'react';
-// import { NavLink } from 'react-router-dom';
-
-// const ManageFee = () => {
-//   const baseUrl = "http://localhost/School/admin";  // Base URL of your API
-//   const [fees, setFees] = useState([]);  // State to hold fee data
-
-//   // Fetch fees data
-//   const fetchFees = () => {
-//     axios.get(baseUrl + "/api/fee")
-//       .then((res) => {
-//         console.log("Fetched fees:", res.data.fees);
-//         setFees(res.data.fees);  // Update the state with fetched fees
-//       })
-//       .catch((err) => {
-//         console.error("Error fetching fees:", err);  // Handle errors
-//       });
-//   };
-
-//   // Run fetchFees when the component mounts
-//   useEffect(() => {
-//     fetchFees();
-//   }, []);
-
-//   // Delete a fee
-//   const handleDelete = (id) => {
-//     console.log("Deleting fee with id:", id);
-
-//     axios.get(baseUrl + "/api/fee/delete?id=" + id)
-//       .then(() => {
-//         fetchFees();  // Re-fetch the fee list after deleting
-//       })
-//       .catch((err) => {
-//         console.error("Error deleting fee:", err.response || err);  // Handle error
-//       });
-//   };
-
-//   return (
-//     <>
-//       <div className="container mt-4">
-//         <div className="row">
-//           <div className="col text-center">
-//             <h1 className="display-4 text-info fw-bold border-bottom pb-2">
-//               <i className="ri-money-dollar-circle-line"></i> <strong>Fee List</strong>
-//             </h1>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Button to create a new fee */}
-//       <NavLink to="/createfee" className="btn btn-info btn-lg fw-bold shadow my-3">
-//         <i className="bi bi-plus-circle me-2"></i> Add Fee
-//       </NavLink>
-
-//       {/* Table displaying fees */}
-//       <table className="table">
-//         <thead>
-//           <tr>
-//             <th scope="col">ID</th>
-//             <th scope="col">Fee Name</th>
-//             <th scope="col">Account Number</th>
-//             <th scope="col">Amount</th>
-//             <th scope="col">Action</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {fees?.map((fee, i) => (
-//             <tr key={i}>
-//               <th scope="row">{fee.id}</th>
-//               <td>{fee.name}</td>
-//               <td>{fee.account}</td>
-//               <td>{fee.amount}</td>
-//               <td className="btn-group">
-//                 {/* Edit and View buttons */}
-//                 <NavLink to={`/updatefee/${fee.id}`} className="btn btn-info">Edit</NavLink>
-//                 <NavLink to={`/showfee/${fee.id}`} className="btn btn-success">View</NavLink>
-//                 {/* Delete button */}
-//                 <button
-//                   onClick={() => handleDelete(fee.id)}
-//                   className="btn btn-danger"
-//                 >
-//                   Delete
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </>
-//   );
-// };
-
-// export default ManageFee;
-
-
-
-
-
-
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const ManageFee = () => {
-  const baseUrl = "http://localhost/School/admin";  
-  const [fees, setFees] = useState([]);  
+  const baseUrl = "http://localhost/Laravel/Restaurant/public";  
+  const [reservations, setReservations] = useState([]);  
 
   // Fetch fees data
-  const fetchFees = () => {
-    axios.get(baseUrl + "/api/reservations")
+  const fetchReservation = () => {
+    axios.get(baseUrl + "/api/resarvation")
       .then((res) => {
-        console.log("Fetched fees:", res.data.fees);
-        setFees(res.data.fees);  
+        console.log("Fetched fees:", res.data);
+        setReservations(res.data.tables);  
       })
       .catch((err) => {
         console.error("Error fetching fees:", err);
@@ -121,16 +21,16 @@ const ManageFee = () => {
 
   // Run fetchFees when the component mounts
   useEffect(() => {
-    fetchFees();
+    fetchReservation();
   }, []);
 
   // Delete a fee
   const handleDelete = (id) => {
     console.log("Deleting fee with id:", id);
 
-    axios.get(baseUrl + "/api/ManageFee/delete?id=" + id)
+    axios.get(baseUrl + "/api/resarvations/delete?id=" + id)
       .then(() => {
-        fetchFees();  // Re-fetch the fee list after deleting
+        fetchReservation()  // Re-fetch the fee list after deleting
       })
       .catch((err) => {
         console.error("Error deleting fee:", err.response || err);
@@ -143,7 +43,7 @@ const ManageFee = () => {
         <div className="row">
           <div className="col text-center">
             <h1 className="display-4 text-info fw-bold border-bottom pb-2">
-              <i className="ri-money-dollar-circle-line"></i> <strong>Manage Fee List</strong>
+              <i className="ri-money-dollar-circle-line"></i> <strong>Manage Reservation</strong>
             </h1>
           </div>
         </div>
@@ -151,7 +51,7 @@ const ManageFee = () => {
 
       {/* Button to create a new fee */}
       <NavLink to="/createfee" className="btn btn-info btn-lg fw-bold shadow my-3">
-        <i className="bi bi-plus-circle me-2"></i> Add Fee
+        <i className="bi bi-plus-circle me-2"></i> New Reservation
       </NavLink>
 
       {/* Table displaying fees */}
@@ -165,30 +65,30 @@ const ManageFee = () => {
             <th>Date</th>
             <th>Time</th>
             <th>Members</th>
-            <th>Special Requests</th>
+            {/* <th>Special Requests</th> */}
             <th>Table ID</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {fees?.map((fee, i) => (
+          {reservations?.map((reservation, i) => (
             <tr key={i}>
-              <td>{fee.id}</td>
-              <td>{fee.name}</td>
-              <td>{fee.phone}</td>
-              <td>{fee.email}</td>
-              <td>{fee.date}</td>
-              <td>{fee.time}</td>
-              <td>{fee.members}</td>
-              <td>{fee.special_requests}</td>
-              <td>{fee.table_id}</td>
+              <td>{reservation.id}</td>
+              <td>{reservation.name}</td>
+              <td>{reservation.phone}</td>
+              <td>{reservation.email}</td>
+              <td>{reservation.date}</td>
+              <td>{reservation.time}</td>
+              <td>{reservation.members}</td>
+              {/* <td>{reservation.special_requests}</td> */}
+              <td>{reservation.table_id}</td>
               <td className="btn-group">
                 {/* Edit and View buttons */}
-                <NavLink to={`/updatefee/${fee.id}`} className="btn btn-info">Edit</NavLink>
-                <NavLink to={`/showfee/${fee.id}`} className="btn btn-success">View</NavLink>
+                <NavLink to={`/updatefee/${reservation.id}`} className="btn btn-info">Edit</NavLink>
+                <NavLink to={`/showfee/${reservation.id}`} className="btn btn-success">View</NavLink>
                 {/* Delete button */}
                 <button
-                  onClick={() => handleDelete(fee.id)}
+                  onClick={() => handleDelete(reservation.id)}
                   className="btn btn-danger"
                 >
                   Delete
