@@ -24,13 +24,13 @@ const CreateReservation = () => {
 
   const fetchCustomers = () => {
     axios
-      .get("http://localhost/Laravel/Restaurant-main/public/api/customers")
+      .get("http://localhost/Laravel/Restaurant/public/api/customers")
       .then((res) => setCustomers(res.data.customers));
   };
 
   const fetchTables = () => {
     axios
-      .get("http://localhost/Laravel/Restaurant-main/public/api/tables")
+      .get("http://localhost/Laravel/Restaurant/public/api/tables")
       .then((res) => setTables(res.data.tables));
   };
 
@@ -45,7 +45,7 @@ const CreateReservation = () => {
     };
 
     axios
-      .post("http://localhost/Laravel/Restaurant-main/public/api/resarvations", ReservationData)
+      .post("http://localhost/Laravel/Restaurant/public/api/resarvations", ReservationData)
       .then((res) => {
         alert("Reservation processed successfully!");
         resetForm();
