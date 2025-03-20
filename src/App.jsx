@@ -11,6 +11,7 @@ import CreatePayment from "./payment/CreatePayment";
 import CreateSub from "./subject/CreateSub";
 import MnanageSub from "./subject/MnanageSub";
 import UpdateSub from "./subject/UpdateSub";
+import CreateInvoice from "./order_invoice/CreateInvoice";
 
 
 
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/managefee" element={<ManageFee />} />
           <Route path="/updatesub/:id" element={<UpdateSub />} />
           <Route path="/updatefee/:id" element={<UpdateFee />} />
+          <Route path="/orderinvoice" element={<CreateInvoice />} />
           
         </Route>
       </Routes>

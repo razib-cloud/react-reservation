@@ -29,7 +29,7 @@ const SideBar = () => {
             aria-controls="student-management"
           >
             <i className="icon-disc menu-icon" />
-            <span className="menu-title">Kitchen MANAGEMENT</span>
+            <span className="menu-title">KITCHEN MANAGEMENT</span>
             <i className="menu-arrow" />
           </a>
           <div className="collapse" id="student-management">
@@ -79,8 +79,10 @@ const SideBar = () => {
           </div>
         </li>
 
+
+
         {/* Class Management */}
-        {/* <li className="nav-item">
+        <li className="nav-item">
           <a
             className="nav-link"
             data-toggle="collapse"
@@ -89,28 +91,24 @@ const SideBar = () => {
             aria-controls="class-management"
           >
             <i className="icon-disc menu-icon" />
-            <span className="menu-title">CLASS MANAGEMENT</span>
+            <span className="menu-title">ORDER MANAGEMENT</span>
             <i className="menu-arrow" />
           </a>
           <div className="collapse" id="class-management">
             <ul className="nav flex-column sub-menu">
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a className="nav-link" href="#">View Class</a>
-              </li>
+              </li> */}
               <li className="nav-item">
-                <NavLink className="nav-link" to="/managesub">
-                  View Subjects
+                <NavLink className="nav-link" to="/orderinvoice">
+                  Create Order
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="">View Routines</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="">View Teachers</a>
-              </li>
+             
+             
             </ul>
           </div>
-        </li> */}
+        </li>
 
         {/* Static Menu Items */}
         <li className="nav-item">
