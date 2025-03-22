@@ -19,38 +19,8 @@ const SideBar = () => {
           </NavLink>
         </li>
 
-        {/* Student Management */}
-        <li className="nav-item">
-          <a
-            className="nav-link"
-            data-toggle="collapse"
-            href="#student-management"
-            aria-expanded="false"
-            aria-controls="student-management"
-          >
-            <i className="icon-disc menu-icon" />
-            <span className="menu-title">KITCHEN MANAGEMENT</span>
-            <i className="menu-arrow" />
-          </a>
-          <div className="collapse" id="student-management">
-            <ul className="nav flex-column sub-menu">
-              <li className="nav-item">
-                <a className="nav-link" href="#">Add New Product</a>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/createpayment">
-                  View Payment Receipt
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">View Product Details</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">View Product Status</a>
-              </li>
-            </ul>
-          </div>
-        </li>
+      
+        
 
         {/* Admission Management */}
         <li className="nav-item">
@@ -96,12 +66,19 @@ const SideBar = () => {
           </a>
           <div className="collapse" id="class-management">
             <ul className="nav flex-column sub-menu">
-              {/* <li className="nav-item">
-                <a className="nav-link" href="#">View Class</a>
-              </li> */}
+              <li className="nav-item">
+              <NavLink className="nav-link" to="/manageproduct">
+                  View All Item
+                </NavLink>
+              </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/orderinvoice">
                   Create Order
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/manageorders">
+                  View All Orders
                 </NavLink>
               </li>
              
@@ -109,6 +86,65 @@ const SideBar = () => {
             </ul>
           </div>
         </li>
+
+
+
+
+
+      {/* Customer Management */}
+        <li className="nav-item">
+          <a
+            className="nav-link"
+            data-toggle="collapse"
+            href="#class-management"
+            aria-expanded="false"
+            aria-controls="class-management"
+          >
+            <i className="icon-disc menu-icon" />
+            <span className="menu-title">CUSTOMER MANAGEMENT</span>
+            <i className="menu-arrow" />
+          </a>
+          <div className="collapse" id="class-management">
+            <ul className="nav flex-column sub-menu">
+              <li className="nav-item">
+              <NavLink className="nav-link" to="/managecustomer">
+                  View Customer List
+                </NavLink>
+              </li>
+             
+            </ul>
+          </div>
+        </li>
+
+
+
+  {/* Kitchen Management */}
+        <li className="nav-item">
+          <a
+            className="nav-link"
+            data-toggle="collapse"
+            href="#student-management"
+            aria-expanded="false"
+            aria-controls="student-management"
+          >
+            <i className="icon-disc menu-icon" />
+            <span className="menu-title">KITCHEN MANAGEMENT</span>
+            <i className="menu-arrow" />
+          </a>
+          <div className="collapse" id="student-management">
+            <ul className="nav flex-column sub-menu">
+              <li className="nav-item">
+                <a className="nav-link" href="#">Add New Product</a>
+              </li>
+              {/* <li className="nav-item">
+                <NavLink className="nav-link" to="/createpayment">
+                  View Payment Receipt
+                </NavLink>
+              </li> */}
+            </ul>
+          </div>
+        </li>
+
 
         {/* Static Menu Items */}
         <li className="nav-item">
