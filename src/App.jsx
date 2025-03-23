@@ -5,6 +5,7 @@ import ManageCustomer from "./customer/ManageCustomer";
 import CreateFee from "./Fee/CreateFee";
 import ManageFee from "./Fee/ManageFee";
 import UpdateFee from "./Fee/UpdateFee";
+import ManageInventory from "./inventory/ManageInventory";
 import Layout from "./Layout/layout";
 import ManageOrder from "./order/ManageOrder";
 import CreateInvoice from "./order_invoice/CreateInvoice";
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/manageproduct" element={<ManageProduct />} />
           <Route path="/managecustomer" element={<ManageCustomer />} />
           <Route path="/manageorders" element={<ManageOrder />} />
+          <Route path="/managestock" element={< ManageInventory />} />
           
           
         </Route>
