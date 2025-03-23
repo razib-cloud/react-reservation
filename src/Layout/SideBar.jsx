@@ -14,7 +14,8 @@ const SideBar = () => {
         <div className="user-image">
           <img src="images/faces/face28.png" alt="User" />
         </div>
-        <div className="user-name">Regal</div>
+        <div className="user-name">Foodzy</div>
+        <div>Love to make food</div>
       </div>
 
       <ul className="nav">
