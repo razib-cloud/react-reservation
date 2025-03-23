@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {  HashRouter, Route, Routes } from "react-router-dom";
 
 import "./../src/App.css";
 import ManageCustomer from "./customer/ManageCustomer";
@@ -21,7 +21,7 @@ import ManageProduct from "./product/ManageProduct";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
@@ -41,7 +41,7 @@ const App = () => {
           
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

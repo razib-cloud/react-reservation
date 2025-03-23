@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const ManageCustomer = () => {
-  const baseUrl = "http://localhost/Laravel/Restaurant/public";
+  const baseUrl = "https://devrazib.com/laravel/public";
   const [customers, setCustomers] = useState([]);
 
   // Fetch customers

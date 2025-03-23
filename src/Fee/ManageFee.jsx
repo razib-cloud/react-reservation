@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const ManageFee = () => {
-  const baseUrl = "http://localhost/Laravel/Restaurant/public";  
+  const baseUrl = "https://devrazib.com/laravel/public";  
   const [reservations, setReservations] = useState([]);  
 
   // Fetch fees data

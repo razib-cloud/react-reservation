@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const ManageInventory = () => {
-  const baseUrl = "http://localhost/Laravel/Restaurant/public";
+  const baseUrl = "https://devrazib.com/laravel/public";
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
